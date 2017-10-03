@@ -32,6 +32,16 @@ namespace CarsInventory.Controllers
             return View(_uow.CarRepository.Get().ToList());
         }
 
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Index(string search)
+        {
+            _uow.CarRepository.UserId = Guid.Parse(User.Identity.GetUserId());
+            return View(_uow.CarRepository.GetByBrandModel(search).ToList());
+        }
+
         // GET: Car/Details/5
         public ActionResult Details(int? id)
         {

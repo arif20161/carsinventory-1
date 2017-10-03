@@ -29,6 +29,11 @@ namespace CarsInventory.DAL
             //return _context.Cars.ToList();
             return _context.Cars.Where(c => c.UserId == UserId).ToList();
         }
+        public IEnumerable<Car> GetByBrandModel(string filter)
+        {
+            //return _context.Cars.ToList();
+            return _context.Cars.Where(c => c.UserId == UserId && (c.Brand.Contains(filter) || c.Model.Contains(filter))).ToList();
+        }
 
         public Car GetById(int id)
         {

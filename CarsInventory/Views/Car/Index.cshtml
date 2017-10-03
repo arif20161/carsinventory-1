@@ -10,6 +10,19 @@
     @Html.ActionLink("Create New", "Create", "Car",
     null, new { @class = "modal-link btn btn-success" })
 </p>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="form-group">
+        <div class="col-md-3">
+            @Html.TextBox("Search", (string)ViewBag.Search, new { @class = "form-control", @placeholder = "Search Brand / Model" })
+        </div>
+        <div class="col-md-1">
+            <button style="float:right;" type="submit" class="btn btn-success">Search</button>
+        </div>
+    </div>
+}
+<br/>
 <table class="table">
     <tr>
         <th>
