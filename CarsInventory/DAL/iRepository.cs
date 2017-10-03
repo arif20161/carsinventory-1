@@ -13,6 +13,5 @@ namespace CarsInventory.DAL
         void Insert(T obj);
         void Delete(int Id);
         void Update(T obj);
-        void Save();
     }
 }

@@ -17,21 +17,19 @@ namespace CarsInventory.Controllers
     public class CarController : Controller
     {
         //private CarContext db = new CarContext();
-        private CarRepository _carRepository;
+        private UnitOfWork _uow;
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(typeof(CarController));
 
         public CarController()
         {
-            this._carRepository = new CarRepository(new CarContext());
+            _uow = new UnitOfWork();
         }
-
-
-
+        
         // GET: Car
         public ActionResult Index()
         {
-            _carRepository.UserId = Guid.Parse(User.Identity.GetUserId());
-            return View(_carRepository.Get().ToList());
+            _uow.CarRepository.UserId = Guid.Parse(User.Identity.GetUserId());
+            return View(_uow.CarRepository.Get().ToList());
         }
 
         // GET: Car/Details/5
@@ -41,8 +39,8 @@ namespace CarsInventory.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            _carRepository.UserId = Guid.Parse(User.Identity.GetUserId());
-            Car car = _carRepository.GetById((int)id);
+            _uow.CarRepository.UserId = Guid.Parse(User.Identity.GetUserId());
+            Car car = _uow.CarRepository.GetById((int)id);
             if (car == null)
             {
                 return HttpNotFound();
@@ -65,9 +63,9 @@ namespace CarsInventory.Controllers
         {
             if (ModelState.IsValid)
             {
-                _carRepository.UserId = Guid.Parse(User.Identity.GetUserId());
-                _carRepository.Insert(car);
-                _carRepository.Save();
+                _uow.CarRepository.UserId = Guid.Parse(User.Identity.GetUserId());
+                _uow.CarRepository.Insert(car);
+                _uow.Save();
                 return RedirectToAction("Index");
             }
 
@@ -81,8 +79,8 @@ namespace CarsInventory.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            _carRepository.UserId = Guid.Parse(User.Identity.GetUserId());
-            Car car = _carRepository.GetById((int)id);
+            _uow.CarRepository.UserId = Guid.Parse(User.Identity.GetUserId());
+            Car car = _uow.CarRepository.GetById((int)id);
             if (car == null)
             {
                 return HttpNotFound();
@@ -99,9 +97,9 @@ namespace CarsInventory.Controllers
         {
             if (ModelState.IsValid)
             {
-                _carRepository.UserId = Guid.Parse(User.Identity.GetUserId());
-                _carRepository.Update(car);
-                _carRepository.Save();
+                _uow.CarRepository.UserId = Guid.Parse(User.Identity.GetUserId());
+                _uow.CarRepository.Update(car);
+                _uow.Save();
                 return RedirectToAction("Index");
             }
             return PartialView(car);
@@ -114,10 +112,10 @@ namespace CarsInventory.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            _carRepository.UserId = Guid.Parse(User.Identity.GetUserId());
-            Car car = _carRepository.GetById((int)id);
+            _uow.CarRepository.UserId = Guid.Parse(User.Identity.GetUserId());
+            Car car = _uow.CarRepository.GetById((int)id);
 
-            log.Error($"Car {id} : {car.Model} deleted by {_carRepository.UserId}."); //this is for testing
+            log.Error($"Car {id} : {car.Model} deleted by {_uow.CarRepository.UserId}."); //this is for testing
 
             if (car == null)
             {
@@ -131,9 +129,9 @@ namespace CarsInventory.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            _carRepository.UserId = Guid.Parse(User.Identity.GetUserId());
-            _carRepository.Delete(id);
-            _carRepository.Save();
+            _uow.CarRepository.UserId = Guid.Parse(User.Identity.GetUserId());
+            _uow.CarRepository.Delete(id);
+            _uow.Save();
             return RedirectToAction("Index");
         }
 
@@ -141,7 +139,7 @@ namespace CarsInventory.Controllers
         {
             if (disposing)
             {
-                _carRepository.Dispose();
+                _uow.Dispose();
             }
             base.Dispose(disposing);
         }

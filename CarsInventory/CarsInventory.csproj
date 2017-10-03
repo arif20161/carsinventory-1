@@ -206,6 +206,7 @@
     <Compile Include="DAL\CarContext.cs" />
     <Compile Include="DAL\CarRepository.cs" />
     <Compile Include="DAL\iRepository.cs" />
+    <Compile Include="DAL\UnitOfWork.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

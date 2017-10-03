@@ -7,7 +7,7 @@ using System.Data.Entity;
 
 namespace CarsInventory.DAL
 {
-    public class CarRepository : iRepository<Car>, IDisposable
+    public class CarRepository : iRepository<Car>
     {
 
         private CarContext _context;
@@ -41,36 +41,12 @@ namespace CarsInventory.DAL
             _context.Cars.Add(obj);
         }
 
-        public void Save()
-        {
-            _context.SaveChanges();
-        }
-
         public void Update(Car obj)
         {
             obj.UserId = UserId;
             _context.Entry(obj).State = EntityState.Modified;
         }
 
-        #region IDisposable Support
-
-        private bool disposedValue = false;
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!disposedValue)
-            {
-                if (disposing)
-                {
-                    _context.Dispose();
-                }
-                disposedValue = true;
-            }
-        }
-
-        public void Dispose()
-        {
-            Dispose(true);
-        }
-        #endregion
+       
     }
 }
